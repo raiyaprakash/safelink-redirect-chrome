@@ -30,7 +30,7 @@ function getQueryVariable(variable) {
 const user_id = getQueryVariable('id');
 if (user_id) {
   const page_is = getQueryVariable('page') || 3;
-  final_url = "/set.php?id=" + user_id + "&page=" + page_is;
+  final_url = "/set.php?id=" + encodeURIComponent(user_id) + "&page=" + page_is;
 }
 
 const isAndroid = /Android/i.test(navigator.userAgent);

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <meta name="referrer" content="no-referrer"/>
+</head>
+<body>
+
+<h2>Opening Link in Chrome...</h2>
+
+<script>
+// Declare final_url in global scope
+let final_url = "/";
+
+// Get query variables
+function getQueryVariable(variable) {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+    if (pair[0] === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return false;
+}
+
+const user_id = getQueryVariable('id');
+if (user_id) {
+  const page_is = getQueryVariable('page') || 3;
+  final_url = "/p/url.html?id=" + user_id + "&page=" + page_is;
+}
+
+const isAndroid = /Android/i.test(navigator.userAgent);
+if (isAndroid) {
+  // Try to open in Chrome via intent
+  window.location.href = "intent://" + window.location.hostname + final_url + "#Intent;scheme=https;package=com.android.chrome;end";
+
+  // Fallback after 2 seconds
+  setTimeout(function () {
+    const userConfirmed = confirm("If the link didn't open in Chrome, click OK to be redirected, or Cancel to copy the link.");
+    if (userConfirmed) {
+      window.location.href = final_url;
+    } else {
+      alert("You can manually copy and paste the link into Chrome.");
+    }
+  }, 2000);
+} else {
+  // Non-Android fallback
+  window.location.href = final_url;
+}
+</script>
+
+</body>
+</html>

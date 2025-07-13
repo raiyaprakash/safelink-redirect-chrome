@@ -1,0 +1,6 @@
+name = "safelink-redirect-chrome"
+compatibility_date = "2025-07-11"
+
+[assets]
+directory = "./public"
+not_found_handling = "single-page-application"
